@@ -1,0 +1,8 @@
+/.parse.local
+/.parse.project
+
+cloud/.DS_Store
+.DS_Store
+/.idea
+/build
+/.gradle
