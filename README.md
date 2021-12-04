@@ -1,5 +1,5 @@
 
-API key should be added in Constants.kt
+##API key should be added in Constants.kt
 
 ## Note: Android Kotlin Gradle Update
 Use the updated Gradle version in the `~/gradle/wrapper/gradle-wrapper.properties` file:
