@@ -2,9 +2,12 @@ package com.udacity.asteroidradar.main
 
 import android.os.Bundle
 import android.view.*
-import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.squareup.picasso.Picasso
+import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 
@@ -31,10 +34,23 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.asteroidRecycler.adapter = AsteroidListAdapter{
-
+        var adapter = AsteroidListAdapter{
+            this.findNavController().navigate(MainFragmentDirections.actionShowDetail(it))
         }
+        binding.asteroidRecycler.adapter = adapter
+
+        viewModel.asteroidLiveData.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
+
+        viewModel.pictureOfDayLiveData.observe(viewLifecycleOwner, Observer {
+            if(it.mediaType=="image") {
+                Picasso.with(requireContext())
+                    .load(it.url)
+                    .into(binding.activityMainImageOfTheDay)
+                binding.activityMainImageOfTheDay.contentDescription = it.title
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
